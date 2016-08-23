@@ -1,0 +1,88 @@
+---
+title       : Blood Pressure Calculator
+subtitle    : A simple R based diagnostic tool
+author      : Antonio Camacho
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Background
+  
+According to the [Mayo Clinic](http://www.mayoclinic.org/diseases-conditions/high-blood-pressure/basics/definition/con-20019580):
+  
+1. High blood pressure is a common condition in which the long-term force of the blood against your artery walls is high enough that it may eventually cause health problems, such as heart disease.
+  
+2. You can have high blood pressure (hypertension) for years without any symptoms. Even without symptoms, damage to blood vessels and your heart continues and can be detected. Uncontrolled high blood pressure increases your risk of serious health problems, including heart attack and stroke.
+
+--- .class #id 
+
+## What you will learn with the *App*
+  
+    
+1. Assess your high blood pressure risks in two steps
+2. Learn about systolic and diastolic blood pressure
+3. Learn the algorithm used to asses your blood pressure risk
+  
+  
+Look at the *Help* tab to have nore detailed instructions in how to use the
+App and background information on Blood Pressure.
+
+| Category               | Systolic (upper #) |   |Diastolic (lower #)|
+|------------------------|--------------------|---|-------------------|
+| Low                    |    < 90            |and|      < 60         |
+| Normal                 |   < 120            | or|      < 80         |
+| Pre-Hypertension       |   < 140            | or|      < 90         |
+| Hypertension (Stage 1) |   < 160            | or|      < 100        |
+| Hypertension (Stage 1) |     160  or higher | or|      100 or higher|
+  
+
+--- .class #id 
+  
+## Two Steps
+  
+1. Enter your systolic blood pressure (high number) unsung the slide-bar
+2. Enter your diastolic blood pressure (lower number) using the sidebar
+
+
+
+#### Systolic and diastolic blood pressure(*):
+
+1. Systolic Blood Pressure: the top number, which is also the higher of the two numbers, measures the pressure in the arteries when the heart beats (when the heart muscle contracts)
+
+1. Diastolic Blood Pressure: the bottom number, which is also the lower of the two numbers, measures the pressure in the arteries between heartbeats (when the heart muscle is resting between beats and refilling with blood)
+
+(*) Definitions taken from [heart.org](http://www.heart.org/HEARTORG/Conditions/HighBloodPressure/AboutHighBloodPressure/Understanding-Blood-Pressure-Readings_UCM_301764_Article.jsp#.V7sVMZMrKfc)
+
+--- 
+
+## Algorithm
+
+The core function of the *Shiny app* is "boodPressureDiagnosis" defined as 
+follows:
+
+
+```r
+boodPressureDiagnosis <- function(systolic=100,diastolic=70){
+    if(diastolic<60 && systolic <90)
+        1L # Low
+    else if(diastolic<80 && systolic<120)
+        2L # Normal
+    else if(diastolic<90 && systolic<140)
+        3L # Pre-Hyper
+    else if(diastolic<100 && systolic<159)
+        4L # Hypertension (Stage 1)
+    else
+        5L # Hypertension (Stage 2)
+}
+# Usage
+boodPressureDiagnosis(110,70)
+```
+
+```
+## [1] 2
+```

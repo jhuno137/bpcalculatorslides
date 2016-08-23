@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blood Pressure Calculator</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Blood Pressure Calculator">
+  <meta name="author" content="Antonio Camacho">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Blood Pressure Calculator</h1>
+    <h2>A simple R based diagnostic tool</h2>
+    <p>Antonio Camacho<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Background</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>According to the <a href="http://www.mayoclinic.org/diseases-conditions/high-blood-pressure/basics/definition/con-20019580">Mayo Clinic</a>:</p>
+
+<ol>
+<li><p>High blood pressure is a common condition in which the long-term force of the blood against your artery walls is high enough that it may eventually cause health problems, such as heart disease.</p></li>
+<li><p>You can have high blood pressure (hypertension) for years without any symptoms. Even without symptoms, damage to blood vessels and your heart continues and can be detected. Uncontrolled high blood pressure increases your risk of serious health problems, including heart attack and stroke.</p></li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>What you will learn with the <em>App</em></h2>
+  </hgroup>
+  <article data-timings="">
+    <ol>
+<li>Assess your high blood pressure risks in two steps</li>
+<li>Learn about systolic and diastolic blood pressure</li>
+<li>Learn the algorithm used to asses your blood pressure risk</li>
+</ol>
+
+<p>Look at the <em>Help</em> tab to have nore detailed instructions in how to use the
+App and background information on Blood Pressure.</p>
+
+<table><thead>
+<tr>
+<th>Category</th>
+<th>Systolic (upper #)</th>
+<th></th>
+<th>Diastolic (lower #)</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Low</td>
+<td>&lt; 90</td>
+<td>and</td>
+<td>&lt; 60</td>
+</tr>
+<tr>
+<td>Normal</td>
+<td>&lt; 120</td>
+<td>or</td>
+<td>&lt; 80</td>
+</tr>
+<tr>
+<td>Pre-Hypertension</td>
+<td>&lt; 140</td>
+<td>or</td>
+<td>&lt; 90</td>
+</tr>
+<tr>
+<td>Hypertension (Stage 1)</td>
+<td>&lt; 160</td>
+<td>or</td>
+<td>&lt; 100</td>
+</tr>
+<tr>
+<td>Hypertension (Stage 1)</td>
+<td>160  or higher</td>
+<td>or</td>
+<td>100 or higher</td>
+</tr>
+</tbody></table>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Two Steps</h2>
+  </hgroup>
+  <article data-timings="">
+    <ol>
+<li>Enter your systolic blood pressure (high number) unsung the slide-bar</li>
+<li>Enter your diastolic blood pressure (lower number) using the sidebar</li>
+</ol>
+
+<h4>Systolic and diastolic blood pressure(*):</h4>
+
+<ol>
+<li><p>Systolic Blood Pressure: the top number, which is also the higher of the two numbers, measures the pressure in the arteries when the heart beats (when the heart muscle contracts)</p></li>
+<li><p>Diastolic Blood Pressure: the bottom number, which is also the lower of the two numbers, measures the pressure in the arteries between heartbeats (when the heart muscle is resting between beats and refilling with blood)</p></li>
+</ol>
+
+<p>(*) Definitions taken from <a href="http://www.heart.org/HEARTORG/Conditions/HighBloodPressure/AboutHighBloodPressure/Understanding-Blood-Pressure-Readings_UCM_301764_Article.jsp#.V7sVMZMrKfc">heart.org</a></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Algorithm</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>The core function of the <em>Shiny app</em> is &quot;boodPressureDiagnosis&quot; defined as 
+follows:</p>
+
+<pre><code class="r">boodPressureDiagnosis &lt;- function(systolic=100,diastolic=70){
+    if(diastolic&lt;60 &amp;&amp; systolic &lt;90)
+        1L # Low
+    else if(diastolic&lt;80 &amp;&amp; systolic&lt;120)
+        2L # Normal
+    else if(diastolic&lt;90 &amp;&amp; systolic&lt;140)
+        3L # Pre-Hyper
+    else if(diastolic&lt;100 &amp;&amp; systolic&lt;159)
+        4L # Hypertension (Stage 1)
+    else
+        5L # Hypertension (Stage 2)
+}
+# Usage
+boodPressureDiagnosis(110,70)
+</code></pre>
+
+<pre><code>## [1] 2
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Background'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='What you will learn with the <em>App</em>'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Two Steps'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Algorithm'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
